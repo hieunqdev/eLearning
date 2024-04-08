@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="survey_page_fill_inherit" inherit_id="survey.survey_page_fill">
+            <xpath expr="//div[hasclass('o_survey_form')]" position="inside">
+                <t t-call-assets="advanced_elearning.survey_page_fill_inherit" lazy_load="True"/>
+                <link rel="stylesheet" type="text/css"
+                      href="/advanced_elearning/static/src/css/survey_templates_dashboard.css"/>
+                <div class="vertical-menu">
+                    <a href="#" t-if="answer.state == 'new' or survey.questions_layout != 'page_per_question'"
+                       t-esc="survey.title" class="o_survey_main_title pt-4 active">
+                    </a>
+
+                    <t t-set="i" t-value="1"/>
+                    <t t-foreach='survey.question_ids' t-as='question'>
+                        <a t-esc='i' t-att-id="question.id" class="menu-text"></a>
+                        <t t-set="i" t-value="i+1"/>
+                    </t>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="survey_fill_form_inherit" inherit_id="survey.survey_fill_form">
+            <xpath expr="//form[hasclass('flex-grow-1')]" position="replace">
+                <form role="form" method="post" t-att-name="survey.id" enctype="multipart/form-data"
+                      class="d-flex flex-grow-1 align-items-center"
+                      t-att-data-answer-token="answer.access_token"
+                      t-att-data-survey-token="survey.access_token"
+                      t-att-data-users-can-go-back="survey.users_can_go_back and not answer.is_session_answer"
+                      t-att-data-session-in-progress="answer.is_session_answer"
+                      t-att-data-is-start-screen="answer.state == 'new'"
+                      t-att-data-readonly="survey_form_readonly"
+                      t-att-data-has-answered="bool(has_answered)"
+                      t-att-data-is-page-description="bool(question and question.is_page and not is_html_empty(question.description))"
+                      t-att-data-questions-layout="survey.questions_layout"
+                      t-att-data-triggered-questions-by-answer="json.dumps(triggered_questions_by_answer)"
+                      t-att-data-selected-answers="json.dumps(selected_answers)">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="token" t-att-value="answer.access_token"/>
+                    <div class="o_survey_error alert alert-danger d-none" role="alert">
+                        <p>There was an error during the validation of the survey.</p>
+                    </div>
+
+                    <div class="o_survey_form_content w-100">
+                        <t t-if="answer.state == 'new'" t-call="survey.survey_fill_form_start"/>
+                        <t t-elif="answer.state == 'in_progress'" t-call="survey.survey_fill_form_in_progress"/>
+                        <t t-else="" t-call="survey.survey_fill_form_done"/>
+                    </div>
+                </form>
+            </xpath>
+        </template>
+
+        <template id="question_container_inherit" inherit_id="survey.question_container">
+            <xpath expr="//div[hasclass('mb-4')]" position="after">
+                <t t-if="question.question_type == 'upload_file'">
+                    <t t-call="survey.question_text_box"/>
+                </t>
+            </xpath>
+        </template>
+
+        <template id="question_text_box_inherit" inherit_id="survey.question_text_box">
+            <xpath expr="//div[hasclass('o_survey_comment_container')]" position="replace">
+                <script type="text/javascript" src="/advanced_elearning/static/src/js/survey_templates_input_file.js"></script>
+                <link rel="stylesheet" type="text/css"
+                      href="/advanced_elearning/static/src/css/survey_templates_dashboard.css"/>
+                <div class="o_survey_comment_container p-0">
+                    <t t-if="question.question_type == 'upload_file'" t-att-data-question-type="question.question_type">
+                        <div class="box_upload">
+                            <input type="file" class="input_file"/>
+                            <input type="text" class="name_file o-hide" t-att-data-question-type="question.question_type"/>
+                            <input type="text" class="base64_file o-hide" t-att-data-question-type="question.question_type"/>
+                        </div>
+                    </t>
+
+                    <t t-if="question.question_type == 'text_box'">
+                        <textarea class="form-control o_survey_question_text_box bg-transparent text-dark rounded-0 p-0"
+                                  rows="3" t-att-name="question.id"
+                                  t-att-data-question-type="question.question_type">
+                            <t t-if="answer_lines" t-esc="answer_lines[0].value_text_box or None"/>
+                        </textarea>
+                    </t>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>

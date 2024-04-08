@@ -1,0 +1,70 @@
+.vertical-menu {
+    padding: 50px;
+    width: 360px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+.vertical-menu a {
+    background-color: #eee;
+    color: #212529;
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.vertical-menu a.active {
+    background-color: #bee5eb;
+    color: #212529;
+    font-weight: bold;
+}
+
+.vertical-menu a.over {
+    background-color: #bee5eb;
+}
+
+a:not([href]):not([tabindex]) {
+    width: 52px;
+    float: left;
+    text-align: center;
+}
+
+.o-hide {
+    opacity: 0;
+}
+
+.input_file {
+    margin-right: 20px;
+    border: none;
+    background: #fff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: #202022;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+    border: 1px solid #35979c;
+}
+
+#file-upload:hover {
+    background: #bee5eb;
+}
+
+@media only screen and (max-width: 1600px) {
+    .container, .o_container_small {
+        max-width: 940px !important;
+    }
+}
+
+@media only screen and (max-width: 1366px) {
+    .container, .o_container_small {
+        max-width: 700px !important;
+    }
+
+    .vertical-menu {
+        width: 257px;
+    }
+}

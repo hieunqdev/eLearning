@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="survey_user_input_inherit_view_form" model="ir.ui.view">
+            <field name="name">survey.user.input.inherit.view.form</field>
+            <field name="model">survey.user_input</field>
+            <field name="inherit_id" ref="survey.survey_user_input_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_print_answers']" position="after">
+                    <button name="mark" string="Mark" type="object" class="oe_highlight"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="survey_user_input_line_inherit_view_form" model="ir.ui.view">
+            <field name="name">survey.user.input.line.inherit.view.form</field>
+            <field name="model">survey.user_input.line</field>
+            <field name="inherit_id" ref="survey.survey_user_input_line_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='matrix_row_id']" position="before">
+                    <field name="value_upload_file" filename="file_name" string="Document"/>
+                    <field name="file_name" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

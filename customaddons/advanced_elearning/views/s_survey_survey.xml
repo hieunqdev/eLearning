@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="survey_survey_view_form" model="ir.ui.view">
+            <field name="name">survey.survey.view.form.inherit.total.score</field>
+            <field name="model">survey.survey</field>
+            <field name="inherit_id" ref="survey.survey_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                     <field name="assignment" widget="many2many_tags" options="{'no_create_edit': True}"/>
+                </xpath>
+
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <label for="group_1_random" string="Group 1 Random"/>
+                    <div class="o_row">
+                        <field name="group_1_random"/>/<field name="group_1_count" class="font-weight-bold" readonly="1"/>
+                    </div>
+                    <label for="group_2_random" string="Group 2 Random"/>
+                    <div class="o_row">
+                        <field name="group_2_random"/>/<field name="group_2_count" class="font-weight-bold" readonly="1"/>
+                    </div>
+                    <label for="group_3_random" string="Group 3 Random"/>
+                    <div class="o_row">
+                        <field name="group_3_random"/>/<field name="group_3_count" class="font-weight-bold" readonly="1"/>
+                    </div>
+                    <label for="group_4_random" string="Group 4 Random"/>
+                    <div class="o_row">
+                        <field name="group_4_random"/>/<field name="group_4_count" class="font-weight-bold" readonly="1"/>
+                    </div>
+                </xpath>
+                 <xpath expr="//field[@name='question_and_page_ids']//field[@name='random_questions_count']"
+                       position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='question_and_page_ids']//field[@name='question_type']"
+                       position="after">
+                    <field name="question_group"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

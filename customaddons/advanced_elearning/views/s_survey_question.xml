@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="s_survey_question_form_inherit" model="ir.ui.view">
+            <field name="name">Inherit Survey Question</field>
+            <field name="model">survey.question</field>
+            <field name="inherit_id" ref="survey.survey_question_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='question_type']" position="after">
+                    <field name="total_score_of_the_sentence" attrs="{'invisible':[('question_type', 'not in', ('multiple_choice', 'simple_choice'))]}"/>
+                    <field name="question_group"/>
+                </xpath>
+                <xpath expr="//field[@name='suggested_answer_ids']/tree/field[@name='answer_score']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
